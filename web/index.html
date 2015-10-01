@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sample</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>Instructions:</h2>
+      <ol>
+        <li>Select a jpeg image</li>
+        <li>Click 'upload'</li>
+        <li>Wait and see if the image gets displayed. If anything goes wrong, an error should show up on the developer console.</li>
+      </ol>
+    </div>
+    <input id="imageFile" type="file">
+    <button onClick="upload()">upload</button>
+    <img id="uploadedImage" />
+    <script type="application/javascript">
+    function upload() {
+      var fd = new FormData();
+      var img = $("#imageFile")[0].files[0]
+      fd.append("image", img);
+      $.ajax({
+        type: "POST",
+        url: "/api/1/uploadImage",
+        data: fd,
+        processData: false,
+        contentType: false,
+      })
+      .then(function(e) {
+        var ret = JSON.parse(e);
+        console.log("done:");
+        console.log(ret);
+        return $.ajax({
+          type: "GET",
+          url: ret["Url"],
+          datatype: "image/jpg"
+        });
+      })
+      .then(function(data) {
+        $("#uploadedImage").attr("src", data);
+      })
+      .fail(function(e) {
+        console.log("failed:");
+        console.log(e);
+      });
+    }
+    </script>
+  </body>
+</html>
