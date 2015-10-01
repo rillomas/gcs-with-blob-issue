@@ -1,4 +1,4 @@
-package xclamm
+package gcs_with_blob_issue
 
 import (
 	"appengine"
