@@ -37,18 +37,11 @@
         processData: false,
         contentType: false,
       })
-      .then(function(e) {
-        var ret = JSON.parse(e);
+      .then(function(ret) {
         console.log("done:");
-        console.log(ret);
-        return $.ajax({
-          type: "GET",
-          url: ret["Url"],
-          datatype: "image/jpg"
-        });
-      })
-      .then(function(data) {
-        $("#uploadedImage").attr("src", data);
+        var imgUrl = ret["Url"];
+        console.log("Getting image from: " + imgUrl);
+        $("#uploadedImage").attr("src", imgUrl);
       })
       .fail(function(e) {
         console.log("failed:");

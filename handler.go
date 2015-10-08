@@ -154,6 +154,7 @@ func handleUploadImage(c appengine.Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(outBuf)
 	if err != nil {
 		c.Errorf("%s", err)
